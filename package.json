@@ -1,5 +1,5 @@
 {
-  "name": "jupyterlab_formatblack",
+  "name": "jupyterlab-cell-formatter-black",
   "version": "0.1.1",
   "description": "Formats cells using the `Black` uncompromising Python code formatter.",
   "keywords": [
@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/tobinjones/jupyterlab_formatblack",
+  "homepage": "https://github.com/def1oyd/jupyterlab-cell-formatter-black",
   "bugs": {
-    "url": "https://github.com/tobinjones/jupyterlab_formatblack/issues"
+    "url": "https://github.com/def1oyd/jupyterlab-cell-formatter-black/issues"
   },
   "license": "BSD-3-Clause",
   "author": "Tobin Jones",
@@ -21,7 +21,7 @@
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tobinjones/jupyterlab_formatblack.git"
+    "url": "https://github.com/def1oyd/jupyterlab-cell-formatter-black.git"
   },
   "scripts": {
     "build": "tsc",

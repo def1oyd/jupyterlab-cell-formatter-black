@@ -1,4 +1,6 @@
-# jupyterlab_formatblack
+# jupyterlab-cell-formatter-black
+
+This is modified from [https://github.com/tobinjones/jupyterlab_formatblack](https://github.com/tobinjones/jupyterlab_formatblack)
 
 Formats cells using the `Black` uncompromising Python code formatter.
 This is quite a hacky solution that relies on the `blackcellmagic` extension by csurfer.
@@ -28,7 +30,7 @@ You can add a keyboard shortcut by adding something like...
 ## Install
 
 ```bash
-jupyter labextension install jupyterlab_formatblack
+jupyter labextension install jupyterlab-cell-formatter-black
 ```
 
 ## Development
