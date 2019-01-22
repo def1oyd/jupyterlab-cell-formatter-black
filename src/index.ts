@@ -55,15 +55,15 @@ function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebo
       const current = getCurrent(args);
 
       if (current) {
-        const { context, notebook } = current;        
+        const { context, content } = current;        
         // Add `%%black` cell magic to each selected cell
-        each(notebook.widgets, (child, i) => {
-          if (notebook.isSelectedOrActive(child) && (child instanceof CodeCell)) {
+        each(content.widgets, (child, i) => {
+          if (content.isSelectedOrActive(child) && (child instanceof CodeCell)) {
             child.model.value.insert(0,'%%black\n')
           }
         });
         // Run each selected cell
-        return NotebookActions.run(notebook, context.session);
+        return NotebookActions.run(content, context.session);
       }
     },
     isEnabled
