@@ -1,6 +1,6 @@
 {
   "name": "jupyterlab-cell-formatter-black",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Formats cells using the `Black` uncompromising Python code formatter.",
   "keywords": [
     "jupyter",
