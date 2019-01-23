@@ -62,8 +62,19 @@ function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebo
             child.model.value.insert(0,'%%black\n')
           }
         });
+
+        // Add an interim cell ensuring the extension blackcellmagic is loaded
+        const reloadBlackCellMagicCell = content.model.contentFactory.createCodeCell({});
+        reloadBlackCellMagicCell.value.text = "%reload_ext blackcellmagic\n";
+        content.model.cells.insert(0, reloadBlackCellMagicCell);
+        content.select(content.widgets[0]);
+
         // Run each selected cell
-        return NotebookActions.run(content, context.session);
+        NotebookActions.run(content, context.session);
+        
+        // Delete the interim cell
+        content.model.cells.removeValue(reloadBlackCellMagicCell);
+        return
       }
     },
     isEnabled
