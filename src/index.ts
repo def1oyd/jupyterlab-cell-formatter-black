@@ -58,8 +58,8 @@ function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebo
         const { context, content } = current;        
         // Add `%%black` cell magic to each selected cell
         each(content.widgets, (child, i) => {
-          if (content.isSelectedOrActive(child) && (child instanceof CodeCell)) {
-            child.model.value.insert(0,'%%black\n')
+          if (content.isSelectedOrActive(child) && child instanceof CodeCell && child.model.value.text.trim() !== "") {
+            child.model.value.insert(0, "%%black\n");
           }
         });
 
