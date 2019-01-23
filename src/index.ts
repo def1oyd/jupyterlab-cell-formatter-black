@@ -26,7 +26,7 @@ import '../style/index.css';
 
 
 function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebookTracker): void {
-  console.log('JupyterLab extension jupyterlab_formatblack is activated!');
+  console.log('JupyterLab extension jupyterlab-cell-formatter-black is activated!');
   const { commands, shell } = app;
 
   // Get the current widget and activate unless the args specify otherwise.
@@ -74,10 +74,10 @@ function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebo
 
 
 /**
- * Initialization data for the jupyterlab_formatblack extension.
+ * Initialization data for the jupyterlab-cell-formatter-black extension.
  */
 const extension: JupyterLabPlugin<void> = {
-  id: 'jupyterlab_formatblack',
+  id: 'jupyterlab-cell-formatter-black',
   autoStart: true,
   requires: [ICommandPalette, INotebookTracker],
   activate: addCommands
