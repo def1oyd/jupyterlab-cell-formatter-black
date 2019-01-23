@@ -1,38 +1,35 @@
-import {
-  JupyterLab, JupyterLabPlugin
-} from '@jupyterlab/application';
+import { JupyterLab, JupyterLabPlugin } from "@jupyterlab/application";
+
+import { ICommandPalette } from "@jupyterlab/apputils";
 
 import {
-  ICommandPalette
-} from '@jupyterlab/apputils';
+  NotebookActions,
+  INotebookTracker,
+  NotebookPanel
+} from "@jupyterlab/notebook";
 
-import {
-  NotebookActions, INotebookTracker, NotebookPanel
-} from '@jupyterlab/notebook';
+import { CodeCell } from "@jupyterlab/cells";
 
-import {
-  CodeCell
-} from '@jupyterlab/cells';
+import { ReadonlyJSONObject } from "@phosphor/coreutils";
 
-import {
-  ReadonlyJSONObject
-} from '@phosphor/coreutils';
+import { each } from "@phosphor/algorithm";
 
-import {
-  each
-} from '@phosphor/algorithm'
+import "../style/index.css";
 
-import '../style/index.css';
-
-
-function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebookTracker): void {
-  console.log('JupyterLab extension jupyterlab-cell-formatter-black is activated!');
+function addCommands(
+  app: JupyterLab,
+  palette: ICommandPalette,
+  tracker: INotebookTracker
+): void {
+  console.log(
+    "JupyterLab extension jupyterlab-cell-formatter-black is activated!"
+  );
   const { commands, shell } = app;
 
   // Get the current widget and activate unless the args specify otherwise.
   function getCurrent(args: ReadonlyJSONObject): NotebookPanel | null {
     const widget = tracker.currentWidget;
-    const activate = args['activate'] !== false;
+    const activate = args["activate"] !== false;
 
     if (activate && widget) {
       shell.activateById(widget.id);
@@ -45,50 +42,60 @@ function addCommands(app: JupyterLab, palette: ICommandPalette, tracker: INotebo
    * Whether there is an active notebook.
    */
   function isEnabled(): boolean {
-    return tracker.currentWidget !== null &&
-           tracker.currentWidget === app.shell.currentWidget;
+    return (
+      tracker.currentWidget !== null &&
+      tracker.currentWidget === app.shell.currentWidget
+    );
   }
 
-  commands.addCommand('black:format-cell', {
-    label: 'Format cell with Black',
+  commands.addCommand("black:format-cell", {
+    label: "Format cell with Black",
     execute: args => {
       const current = getCurrent(args);
 
       if (current) {
-        const { context, content } = current;        
+        const { context, content } = current;
         // Add `%%black` cell magic to each selected cell
         each(content.widgets, (child, i) => {
-          if (content.isSelectedOrActive(child) && child instanceof CodeCell && child.model.value.text.trim() !== "") {
+          if (
+            content.isSelectedOrActive(child) &&
+            child instanceof CodeCell &&
+            child.model.value.text.trim() !== ""
+          ) {
             child.model.value.insert(0, "%%black\n");
           }
         });
 
         // Add an interim cell ensuring the extension blackcellmagic is loaded
-        const reloadBlackCellMagicCell = content.model.contentFactory.createCodeCell({});
+        const reloadBlackCellMagicCell = content.model.contentFactory.createCodeCell(
+          {}
+        );
         reloadBlackCellMagicCell.value.text = "%reload_ext blackcellmagic\n";
         content.model.cells.insert(0, reloadBlackCellMagicCell);
         content.select(content.widgets[0]);
 
         // Run each selected cell
         NotebookActions.run(content, context.session);
-        
+
         // Delete the interim cell
         content.model.cells.removeValue(reloadBlackCellMagicCell);
-        return
+        return;
       }
     },
     isEnabled
   });
-  
-  palette.addItem({command: 'black:format-cell', category: 'Notebook Cell Operations'});
-}
 
+  palette.addItem({
+    command: "black:format-cell",
+    category: "Notebook Cell Operations"
+  });
+}
 
 /**
  * Initialization data for the jupyterlab-cell-formatter-black extension.
  */
 const extension: JupyterLabPlugin<void> = {
-  id: 'jupyterlab-cell-formatter-black',
+  id: "jupyterlab-cell-formatter-black",
   autoStart: true,
   requires: [ICommandPalette, INotebookTracker],
   activate: addCommands
